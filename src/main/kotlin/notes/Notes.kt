@@ -1,12 +1,14 @@
 package ru.netology.notes
 
-import data.Note
+import Exceptions.NoteExistException
 import notes.Identifiable
 
-class Notes<T>(
+
+class Notes<T, E>(
     override val storage: MutableList<T>,
     override var deletedStorage: MutableList<T>,
 ) : CRUD<T, Identifiable> {
+
     override fun create(element: T) {
         storage.add(element)
     }
@@ -28,12 +30,30 @@ class Notes<T>(
         storage.clear()
     }
 
-    fun getById(elementId: T): T? {
-        for(i in storage){
-            if(i?.equals(elementId) == true){
-                return elementId
+    fun getById(elementId: E): T {
+        for (i in storage.indices) {
+            for(j in storage.indices){
+                if(j == elementId){
+                    return storage[j]
+                }
             }
         }
-        return null
+        return throw NoteExistException("This Id not exist")
+    }
+    fun getFriendsNotes(elementId: E): T {
+        for (i in storage.indices) {
+            for(j in storage.indices){
+                if(j == elementId){
+                    return storage[j]
+                }
+            }
+        }
+        return throw NoteExistException("This Id not exist")
+    }
+
+    fun clear(){
+        storage.clear()
+        deletedStorage.clear()
     }
 }
+
