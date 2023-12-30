@@ -4,7 +4,7 @@ import Exceptions.NoteExistException
 import notes.Identifiable
 
 
-class Notes<T, E>(
+open class Notes<T, E>(
     override val storage: MutableList<T>,
     override var deletedStorage: MutableList<T>,
 ) : CRUD<T, Identifiable> {
@@ -40,6 +40,7 @@ class Notes<T, E>(
         }
         return throw NoteExistException("This Id not exist")
     }
+
     fun getFriendsNotes(elementId: E): T {
         for (i in storage.indices) {
             for(j in storage.indices){
