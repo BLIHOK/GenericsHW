@@ -1,12 +1,10 @@
-package ru.netology.notes
+package notes
 
-import data.Note
-
-interface CRUD<T, Identifiable> {
+interface CRUD<T : Identifiable> {
     val storage: MutableList<T>
-    var deletedStorage: MutableList<T>
 
     fun create(element: T) {
+        println("The object has been added!")
         storage.add(element)
     }
 
@@ -16,14 +14,25 @@ interface CRUD<T, Identifiable> {
 
     fun update(element: T): Boolean {
         for ((i, b) in storage.withIndex()) {
-            storage[i] = element
-            return true
+            if (element.id == b.id) {
+                storage[i] = element
+                println("The object has been updated!")
+                return true
+            }
         }
+        println("Object not exist or wrong Id!")
         return false
     }
 
-    fun delete() {
-        deletedStorage.addAll(storage)
-        storage.clear()
+    fun delete(element: T):Boolean {
+        for ((i, b) in storage.withIndex()) {
+            if(element.id==b.id){
+//                storage.removeAt(i)
+                storage[i] = element
+                println("The object has been deleted!")
+                return true
+            }
+        }
+        return false
     }
 }

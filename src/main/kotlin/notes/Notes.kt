@@ -1,60 +1,42 @@
-package ru.netology.notes
+package notes
 
-import Exceptions.NoteExistException
-import notes.Identifiable
+import data.Note
 
 
-open class Notes<T, E>(
-    override val storage: MutableList<T>,
-    override var deletedStorage: MutableList<T>,
-) : CRUD<T, Identifiable> {
-
-    override fun create(element: T) {
-        storage.add(element)
-    }
-
-    override fun read(): MutableList<T> {
-        return storage
-    }
-
-    override fun update(element: T): Boolean {
+class Notes(
+    override val storage: MutableList<Note>,
+) : CRUD<Note> {
+    override fun delete(element: Note): Boolean {
         for ((i, b) in storage.withIndex()) {
-            storage[i] = element
-            return true
+            if (element.id == b.id) {
+                storage[i].isDeleted = true
+                println("The object has been deleted!")
+                return true
+            }
         }
         return false
     }
 
-    override fun delete() {
-        deletedStorage.addAll(storage)
-        storage.clear()
-    }
-
-    fun getById(elementId: E): T {
-        for (i in storage.indices) {
-            for(j in storage.indices){
-                if(j == elementId){
-                    return storage[j]
-                }
+    fun getFriendsNotes(element: Note) {
+        for ((i, b) in storage.withIndex()) {
+            if(element.userId == b.userId){
+                println("User $b")
             }
         }
-        return throw NoteExistException("This Id not exist")
     }
-
-    fun getFriendsNotes(elementId: E): T {
-        for (i in storage.indices) {
-            for(j in storage.indices){
-                if(j == elementId){
-                    return storage[j]
-                }
+    fun getById(element: Note): Note{
+        for ((i, b) in storage.withIndex()) {
+            if(element.id == b.id){
+                return b
             }
         }
-        return throw NoteExistException("This Id not exist")
+        return element
     }
 
-    fun clear(){
+    fun clear() {
         storage.clear()
-        deletedStorage.clear()
     }
 }
+
+
 

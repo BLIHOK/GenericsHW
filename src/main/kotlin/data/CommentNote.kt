@@ -7,6 +7,6 @@ data class CommentNote(
     val noteId: Int = 0,
     var date: Int = 0,
     val text: String = "",
-    override val id: Int = 0,
-    override val isDeleted: Boolean = false,
+    override var id: Int = 0,
+    override var isDeleted: Boolean = false,
 ) : Identifiable
