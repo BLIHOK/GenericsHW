@@ -1,46 +1,37 @@
 package notes
 
-import Exceptions.NoteExistException
 import data.CommentNote
 
 class NoteComment(
     override val storage: MutableList<CommentNote>,
-    ) : CRUD<CommentNote>  {
-
-    override fun create(element: CommentNote) {
-        storage.add(element)
-    }
-
-    override fun read(): MutableList<CommentNote> {
-        return storage
-    }
-
-    override fun update(element: CommentNote): Boolean {
+) : CRUD<CommentNote> {
+    override fun delete(element: CommentNote): Boolean {
         for ((i, b) in storage.withIndex()) {
-            storage[i] = element
-            return true
+            if (element.id == b.id) {
+                storage[i].isDeleted = true
+                println("The object has been deleted!")
+                return true
+            }
         }
         return false
     }
 
-    override fun delete(element: CommentNote):Boolean{
-
-        storage.clear()
+    fun getComments(element: CommentNote) {
+        for ((i, b) in storage.withIndex())
+            if (element.noteId == b.noteId) {
+                println("User $b")
+            }
     }
 
-    fun getComments(elementId: CommentNote): CommentNote {
-        for (i in storage.indices) {
-            for(j in storage.indices){
-                if(j == elementId){
-                    return storage[j]
-                }
+    fun restoreComment(element: CommentNote): Boolean {
+        for ((i, b) in storage.withIndex()) {
+            if (element.id == b.id) {
+                storage[i].isDeleted = false
+                println("The object has been restored!")
+                return true
             }
         }
-        return throw NoteExistException("This Id not exist")
-    }
-
-    fun restoreComment(): Boolean{
-        return storage.addAll(deletedStorage)
+        return false
     }
 }
 

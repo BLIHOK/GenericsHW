@@ -24,15 +24,16 @@ interface CRUD<T : Identifiable> {
         return false
     }
 
-    fun delete(element: T):Boolean {
+    fun delete(element: T): Boolean {
         for ((i, b) in storage.withIndex()) {
-            if(element.id==b.id){
+            if (element.id == b.id) {
 //                storage.removeAt(i)
                 storage[i] = element
                 println("The object has been deleted!")
                 return true
             }
         }
+        println("The object cannot be deleted!")
         return false
     }
 }

@@ -6,6 +6,7 @@ import data.Note
 class Notes(
     override val storage: MutableList<Note>,
 ) : CRUD<Note> {
+
     override fun delete(element: Note): Boolean {
         for ((i, b) in storage.withIndex()) {
             if (element.id == b.id) {
@@ -19,14 +20,14 @@ class Notes(
 
     fun getFriendsNotes(element: Note) {
         for ((i, b) in storage.withIndex()) {
-            if(element.userId == b.userId){
+            if(element.userId == b.userId && b.isDeleted == false){
                 println("User $b")
             }
         }
     }
     fun getById(element: Note): Note{
         for ((i, b) in storage.withIndex()) {
-            if(element.id == b.id){
+            if(element.id == b.id && b.isDeleted == false){
                 return b
             }
         }
@@ -37,6 +38,3 @@ class Notes(
         storage.clear()
     }
 }
-
-
-

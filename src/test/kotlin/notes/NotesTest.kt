@@ -1,7 +1,7 @@
 package notes
 
 
-import Exceptions.NoteExistException
+import exceptions.NoteExistException
 import data.Note
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
