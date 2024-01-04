@@ -17,7 +17,7 @@ class NoteServiceTest {
     fun create() {
         val note = Note("1st note", 0, 2023, "Friend1", id = 0, isDeleted = false)
         val createdNote = NoteService.create(note)
-        assertEquals(0, createdNote.userId)
+        assertEquals(note.id, createdNote.id)
     }
 
     @Test
@@ -70,8 +70,8 @@ class NoteServiceTest {
     fun testCreate() {
         val note1 = Note("1st note", 1, 2023, "Friend1", id = 1, isDeleted = false)
         val com1 = CommentNote("1st comment", 0, 2023, "Friend1", id = 0, isDeleted = false)
-        NoteService.create(1, com1)
-        assertEquals(note1.id, com1.id)
+        val createdNote = NoteService.create(1, com1)
+        assertEquals(note1.id, createdNote.noteId)
     }
 
     @Test
@@ -103,11 +103,17 @@ class NoteServiceTest {
     fun getComments() {
         val com1 = CommentNote("1st comment", 0, 2023, "Friend3", id = 0, isDeleted = false)
         val com2 = CommentNote("2st comment", 0, 2023, "Friend3", id = 0, isDeleted = false)
+        NoteService.create(0, com1)
+        NoteService.create(0, com2)
         val get = NoteService.getComments(0, CommentNote())
-        assertEquals(mutableListOf(com1,com2), get)
+        assertEquals(mutableListOf(com1, com2), get)
     }
 
     @Test
     fun restoreComment() {
+        val com1 = CommentNote("1st comment", 0, 2023, "Friend3", id = 0, isDeleted = true)
+        NoteService.create(0, com1)
+        val restore = NoteService.restoreComment(0, CommentNote())
+        assertEquals(true, restore)
     }
 }

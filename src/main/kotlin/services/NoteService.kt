@@ -20,24 +20,24 @@ object NoteService {
     }
 
     fun delete(id: Int, note: Note): Boolean {
-        commentsCrud.delete(CommentNote().copy(isDeleted = true))
+        commentsCrud.storage[id].isDeleted = true
         return notesCrud.delete(note.copy(id = id))
     }
 
-    fun getFriends(userId: Int, note: Note) : MutableList<Note>{
+    fun getFriends(userId: Int, note: Note): MutableList<Note> {
         return notesCrud.getFriendsNotes(note.copy(userId = userId))
     }
 
     fun getById(id: Int, note: Note) = notesCrud.getById(note.copy(id = id))
 
 
-    fun create(noteId: Int, comment: CommentNote) {
-        commentsCrud.create(comment.copy(noteId = noteId))
+    fun create(noteId: Int, comment: CommentNote): CommentNote {
+        return commentsCrud.create(comment.copy(noteId = noteId))
     }
 
     fun readComments() = commentsCrud.read()
 
-    fun update(id: Int, comment: CommentNote) :Boolean{
+    fun update(id: Int, comment: CommentNote): Boolean {
         return commentsCrud.update(comment.copy(id = id))
     }
 
@@ -46,13 +46,12 @@ object NoteService {
     }
 
 
-    fun getComments(noteId: Int, comment: CommentNote) :MutableList<CommentNote>{
+    fun getComments(noteId: Int, comment: CommentNote): MutableList<CommentNote> {
         return commentsCrud.getComments(comment.copy(noteId = noteId))
     }
 
-    fun restoreComment(id: Int, comment: CommentNote) {
-
-        commentsCrud.restoreComment(comment.copy(id = id))
+    fun restoreComment(id: Int, comment: CommentNote): Boolean {
+        return commentsCrud.restoreComment(comment.copy(id = id))
     }
 
     fun clear() {

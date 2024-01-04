@@ -10,13 +10,14 @@ class NoteComment(
 
     override fun delete(element: CommentNote): Boolean {
         for ((i, b) in storage.withIndex()) {
+            if (b.isDeleted != element.isDeleted) {
+                println("The object cannot be deleted!")
+                return false
+            }
             if (element.id == b.id) {
                 storage[i].isDeleted = true
                 println("The object has been deleted!")
                 return true
-            }
-            if (b.isDeleted == true) {
-                return false
             }
         }
         return false
