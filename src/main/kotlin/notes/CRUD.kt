@@ -3,9 +3,10 @@ package notes
 interface CRUD<T : Identifiable> {
     val storage: MutableList<T>
 
-    fun create(element: T) {
+    fun create(element: T) : T{
         println("The object has been added!")
         storage.add(element)
+        return element
     }
 
     fun read(): MutableList<T> {
@@ -26,6 +27,7 @@ interface CRUD<T : Identifiable> {
 
     fun delete(element: T): Boolean {
         for ((i, b) in storage.withIndex()) {
+
             if (element.id == b.id) {
 //                storage.removeAt(i)
                 storage[i] = element
@@ -35,5 +37,8 @@ interface CRUD<T : Identifiable> {
         }
         println("The object cannot be deleted!")
         return false
+    }
+    fun clear() {
+        storage.clear()
     }
 }

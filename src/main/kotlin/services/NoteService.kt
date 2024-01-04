@@ -15,17 +15,17 @@ object NoteService {
 
     fun readNotes() = notesCrud.read()
 
-    fun update(noteId: Int, note: Note) {
-        notesCrud.update(note.copy(id = noteId))
+    fun update(noteId: Int, note: Note): Boolean {
+        return notesCrud.update(note.copy(id = noteId))
     }
 
-    fun delete(id: Int, note: Note) {
-        notesCrud.delete(note.copy(id = id))
+    fun delete(id: Int, note: Note): Boolean {
         commentsCrud.delete(CommentNote().copy(isDeleted = true))
+        return notesCrud.delete(note.copy(id = id))
     }
 
-    fun getFriends(userId: Int, note: Note) {
-        notesCrud.getFriendsNotes(note.copy(userId = userId))
+    fun getFriends(userId: Int, note: Note) : MutableList<Note>{
+        return notesCrud.getFriendsNotes(note.copy(userId = userId))
     }
 
     fun getById(id: Int, note: Note) = notesCrud.getById(note.copy(id = id))
@@ -37,27 +37,26 @@ object NoteService {
 
     fun readComments() = commentsCrud.read()
 
-    fun update(id: Int, comment: CommentNote) {
-        commentsCrud.update(comment.copy(id = id))
-
+    fun update(id: Int, comment: CommentNote) :Boolean{
+        return commentsCrud.update(comment.copy(id = id))
     }
 
-    fun delete(id: Int, comment: CommentNote) {
-        if (comment.copy().isDeleted == commentsCrud.delete(comment)) {
-            commentsCrud.delete(comment.copy(id = id))
-        } else println("wrong")
+    fun delete(id: Int, comment: CommentNote): Boolean {
+        return commentsCrud.delete(comment.copy(id = id))
     }
 
 
-    fun getComments(noteId: Int, comment: CommentNote) {
-        commentsCrud.getComments(comment.copy(noteId = noteId))
+    fun getComments(noteId: Int, comment: CommentNote) :MutableList<CommentNote>{
+        return commentsCrud.getComments(comment.copy(noteId = noteId))
     }
 
     fun restoreComment(id: Int, comment: CommentNote) {
-        if (CommentNote(id = id).isDeleted == comment.isDeleted) {
-            commentsCrud.restoreComment(comment.copy(id = id))
-        } else {
-            println("wrong")
-        }
+
+        commentsCrud.restoreComment(comment.copy(id = id))
+    }
+
+    fun clear() {
+        notesCrud.clear()
+        commentsCrud.clear()
     }
 }

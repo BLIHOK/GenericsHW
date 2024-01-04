@@ -18,23 +18,24 @@ class Notes(
         return false
     }
 
-    fun getFriendsNotes(element: Note) {
+    fun getFriendsNotes(element: Note) : MutableList<Note>{
+        val st = mutableListOf<Note>()
         for ((i, b) in storage.withIndex()) {
-            if(element.userId == b.userId && b.isDeleted == false){
-                println("User $b")
+            if (element.userId == b.userId && b.isDeleted == false) {
+                st.add(b)
             }
         }
+        return st
     }
-    fun getById(element: Note): Note{
+
+    fun getById(element: Note): Note {
         for ((i, b) in storage.withIndex()) {
-            if(element.id == b.id && b.isDeleted == false){
+            if (element.id == b.id && b.isDeleted == false) {
                 return b
             }
         }
         return element
     }
 
-    fun clear() {
-        storage.clear()
-    }
+
 }
