@@ -1,6 +1,6 @@
 package services
 
-//import exceptions.NoteExistException
+
 import data.CommentNote
 import data.Note
 import notes.NoteComment
@@ -11,37 +11,40 @@ object NoteService {
     private val notesCrud: Notes = Notes(mutableListOf()) // Почему бы не задать значение по умолчанию
     private val commentsCrud: NoteComment = NoteComment(mutableListOf())
 
-    fun create(note: Note) = notesCrud.create(note)
+    fun add(note: Note) = notesCrud.create(note)
 
-    fun readNotes() = notesCrud.read()
+    fun get() = notesCrud.read()
 
-    fun update(noteId: Int, note: Note): Boolean {
+    fun edit(noteId: Int, note: Note): Boolean {
         return notesCrud.update(note.copy(id = noteId))
     }
 
     fun delete(id: Int, note: Note): Boolean {
-        commentsCrud.storage[id].isDeleted = true
+        val commentsForNote = commentsCrud.getComments(CommentNote(noteId = id))
+        if(!commentsCrud.storage.isEmpty()) {
+            commentsForNote[id].isDeleted = true
+        }
         return notesCrud.delete(note.copy(id = id))
     }
 
-    fun getFriends(userId: Int, note: Note): MutableList<Note> {
+    fun getFriendsNotes(userId: Int, note: Note): MutableList<Note> {
         return notesCrud.getFriendsNotes(note.copy(userId = userId))
     }
 
     fun getById(id: Int, note: Note) = notesCrud.getById(note.copy(id = id))
 
 
-    fun create(noteId: Int, comment: CommentNote): CommentNote {
+    fun createComment(noteId: Int, comment: CommentNote): CommentNote {
         return commentsCrud.create(comment.copy(noteId = noteId))
     }
 
-    fun readComments() = commentsCrud.read()
+    fun getComment() = commentsCrud.read()
 
-    fun update(id: Int, comment: CommentNote): Boolean {
+    fun editComment(id: Int, comment: CommentNote): Boolean {
         return commentsCrud.update(comment.copy(id = id))
     }
 
-    fun delete(id: Int, comment: CommentNote): Boolean {
+    fun deleteComment(id: Int, comment: CommentNote): Boolean {
         return commentsCrud.delete(comment.copy(id = id))
     }
 

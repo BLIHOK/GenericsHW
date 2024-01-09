@@ -18,7 +18,7 @@ class Notes(
         return false
     }
 
-    fun getFriendsNotes(element: Note) : MutableList<Note>{
+    fun getFriendsNotes(element: Note): MutableList<Note> {
         val st = mutableListOf<Note>()
         for ((i, b) in storage.withIndex()) {
             if (element.userId == b.userId && b.isDeleted == false) {
@@ -36,6 +36,4 @@ class Notes(
         }
         return element
     }
-
-
 }

@@ -39,4 +39,5 @@ interface CRUD<T : Identifiable> {
     fun clear() {
         storage.clear()
     }
+
 }
