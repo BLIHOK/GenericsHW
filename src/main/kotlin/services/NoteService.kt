@@ -22,7 +22,8 @@ object NoteService {
     fun delete(id: Int, note: Note): Boolean {
         val commentsForNote = commentsCrud.getComments(CommentNote(noteId = id))
         if(!commentsCrud.storage.isEmpty()) {
-            commentsForNote[id].isDeleted = true
+            commentsForNote.forEach { it.isDeleted = true }
+//            commentsForNote[id].isDeleted = true
         }
         return notesCrud.delete(note.copy(id = id))
     }
