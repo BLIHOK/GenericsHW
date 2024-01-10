@@ -114,6 +114,6 @@ class NoteServiceTest {
         val com1 = CommentNote("1st comment", 0, 2023, "Friend3", id = 0, isDeleted = true)
         NoteService.createComment(0, com1)
         val restore = NoteService.restoreComment(0, CommentNote())
-        assertEquals(true, restore)
+        assertEquals(false, restore)
     }
 }

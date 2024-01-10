@@ -32,8 +32,9 @@ object NoteService {
         return notesCrud.getFriendsNotes(note.copy(userId = userId))
     }
 
-    fun getById(id: Int, note: Note) {
-        notesCrud.getById(id, note.copy(id = id))
+    fun getById(id: Int, note: Note): Note {
+        return notesCrud.getById(id, note.copy(id = id))
+
     }
 
 
