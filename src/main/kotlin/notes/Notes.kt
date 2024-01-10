@@ -28,9 +28,9 @@ class Notes(
         return st
     }
 
-    fun getById(element: Note): Note {
+    fun getById(id: Int, element: Note): Note {
         for ((i, b) in storage.withIndex()) {
-            if (element.id == b.id && b.isDeleted == false) {
+            if (element.id == b.id && !b.isDeleted) {
                 return b
             }
         }

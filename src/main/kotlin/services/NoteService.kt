@@ -21,7 +21,7 @@ object NoteService {
 
     fun delete(id: Int, note: Note): Boolean {
         val commentsForNote = commentsCrud.getComments(CommentNote(noteId = id))
-        if(!commentsCrud.storage.isEmpty()) {
+        if (commentsCrud.storage.isNotEmpty()) {
             commentsForNote.forEach { it.isDeleted = true }
 //            commentsForNote[id].isDeleted = true
         }
@@ -32,7 +32,9 @@ object NoteService {
         return notesCrud.getFriendsNotes(note.copy(userId = userId))
     }
 
-    fun getById(id: Int, note: Note) = notesCrud.getById(note.copy(id = id))
+    fun getById(id: Int, note: Note) {
+        notesCrud.getById(id, note.copy(id = id))
+    }
 
 
     fun createComment(noteId: Int, comment: CommentNote): CommentNote {
@@ -55,7 +57,11 @@ object NoteService {
     }
 
     fun restoreComment(id: Int, comment: CommentNote): Boolean {
-        return commentsCrud.restoreComment(comment.copy(id = id))
+        val noteIdComment = comment.noteId
+        if (notesCrud.getById(noteIdComment, Note()).isDeleted) {
+            return commentsCrud.restoreComment(comment.copy(id = id))
+        }
+        return false
     }
 
     fun clear() {

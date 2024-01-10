@@ -15,7 +15,7 @@ fun main() {
 //    NoteService.edit(0, noteUpdate)
     println(NoteService.get())
     NoteService.delete(0,Note())
-    println(NoteService.get())
+//    println(NoteService.get())
 //    println( NoteService.getFriendsNotes(0, Note()))
 //    println(NoteService.get())
 //    println(NoteService.getById(2, Note()))
@@ -27,7 +27,7 @@ fun main() {
     NoteService.createComment(0, com1)
     NoteService.createComment(0, com2)
 ////    NoteService.createComment(1, com3)
-    println(NoteService.getComment())
+//    println(NoteService.getComment())
     NoteService.delete(0, Note())
     println(NoteService.get())
 //
@@ -39,6 +39,7 @@ fun main() {
 //    NoteService.deleteComment(2, CommentNote())
 //    println(NoteService.getComment())
     NoteService.restoreComment(1, CommentNote())
+//    println(NoteService.get())
     println(NoteService.getComment())
 
 }
